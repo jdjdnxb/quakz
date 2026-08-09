@@ -23,7 +23,18 @@ void framebuffer_init(void) {
 }
 
 void put_pixel(uint32_t x, uint32_t y, uint32_t color) {
-    (void)x;
-    (void)y;
-    (void)color;
+    if (x >= framebuffer.width || y >= framebuffer.height)
+        return;
+
+    uintptr_t addr = (uintptr_t)framebuffer.address + (uintptr_t)y * framebuffer.pitch + (uintptr_t)x * framebuffer.bytes_per_pixel;
+
+    *(uint32_t*)addr = color;
+}
+
+void framebuffer_clear(uint32_t color) {
+    for (uint32_t i = 0; i < framebuffer.height; i++) {
+        for (uint32_t j = 0; j < framebuffer.width; j++) {
+            put_pixel(j, i, color);
+        }
+    }
 }
