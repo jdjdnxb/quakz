@@ -21,7 +21,7 @@ void terminal_set_cursor(terminal_t *terminal, uint32_t x, uint32_t y);
 void terminal_resize(terminal_t *terminal, uint32_t width, uint32_t height);
 void terminal_clear(terminal_t *terminal);
 
-void terminal_initialize(terminal_t *terminal);
+void terminal_init(terminal_t *terminal);
 
 void terminal_scroll(terminal_t *terminal);
 void terminal_backspace(terminal_t *terminal);

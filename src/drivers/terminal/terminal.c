@@ -28,11 +28,11 @@ void terminal_clear(terminal_t *terminal) {
     terminal_set_cursor(terminal, TERMINAL_MARGIN, TERMINAL_MARGIN);
 }
 
-void terminal_initialize(terminal_t *terminal) {
+void terminal_init(terminal_t *terminal) {
     terminal_resize(terminal, framebuffer.width, framebuffer.height);
 
-    terminal_set_fg(terminal, 0xFFFFFFFF);
-    terminal_set_bg(terminal, 0x00000000);
+    terminal_set_fg(terminal, 0xFFEBE0BF);
+    terminal_set_bg(terminal, 0xFF101010);
 
     terminal_clear(terminal);
 }

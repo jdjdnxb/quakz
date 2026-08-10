@@ -110,7 +110,19 @@ PRINTF_STATE_SPEC_:
                 print_number(num, 10, is_neg, false, 0);
                 break;
             }
-            case 'u':
+            case 'u': {
+                unsigned long long num;
+
+                if (length == PRINTF_LENGTH_LONG_LONG)
+                    num = va_arg(args, unsigned long long);
+                else if (length == PRINTF_LENGTH_LONG)
+                    num = va_arg(args, unsigned long);
+                else
+                    num = va_arg(args, unsigned int);
+
+                print_number(num, 10, false, false, 0);
+                break;
+            }
             case 'x':
             case 'X': {
                 unsigned long long num;
@@ -123,8 +135,8 @@ PRINTF_STATE_SPEC_:
                     num = va_arg(args, unsigned int);
                 }
 
-                kprintf("0x");
-                print_number(num, 16, false, *fmt == 'X', 0);
+                terminal_write(&kernel_terminal, "0x");
+                print_number(num, 16, false, *fmt == 'X', 16);
 
                 break;
             }
