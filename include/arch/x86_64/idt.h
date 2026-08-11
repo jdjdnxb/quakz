@@ -3,7 +3,7 @@
 #include <stdint.h>
 
 typedef struct {
-    uint16_t size;           // sizeof(idt_entry_t) - 1
+    uint16_t size;           // sizeof(idt) - 1
     uint64_t offset;         // LINEAR address of the idt
 } __attribute__((packed))idtr_t;
 

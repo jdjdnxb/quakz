@@ -26,5 +26,11 @@ void exception_double_fault(struct interrupt_frame *frame, uint64_t error_code) 
 __attribute__((interrupt))
 void exception_page_fault(struct interrupt_frame *frame, uint64_t error_code) {
     panic_begin(PANIC_EXCEPTION, "#PF Page Fault", frame, error_code);
+    
+    uint64_t cr2;
+    __asm__ volatile("mov %%cr2, %0" : "=r"(cr2));
+
+    kprintf("CR2: %x", cr2);
+
     panic_end();
 }

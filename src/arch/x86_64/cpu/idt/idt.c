@@ -1,7 +1,7 @@
 #include <arch/x86_64/idt.h>
 #include <stdint.h>
 #include <arch/x86_64/handlers.h>
-#include <kprintf.h>
+#include <logger.h>
 
 static idtr_t idtr;
 static idt_entry_t idt[256];
@@ -38,5 +38,5 @@ void idt_init(void) {
     lidt(&idtr);
     // __asm__ volatile("sti");
 
-    kprintf("IDT initialized.\n");
+    log(LOG_OK, "IDT enabled.\n");
 }
