@@ -7,5 +7,5 @@ typedef enum {
     LOG_ERROR
 } log_type_t;
 
-void log(log_type_t type, const char *message);
+void log(log_type_t type, const char *fmt, ...);
 

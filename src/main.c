@@ -24,11 +24,15 @@ void _start(void) {
     kernel_phys_start = kernel_address_request.response->physical_base;
     kernel_phys_end = kernel_address_request.response->physical_base + kernel_size;
 
+    ASSERT(hhdm_request.response != NULL);
+
     framebuffer_init();
     terminal_init(&kernel_terminal);
     idt_init();
-    kprintf("HHDM offset: %x\n", hhdm_request.response->offset);
+    log(LOG_INFO, "HHDM offset: %x\n", hhdm_request.response->offset);
     pmm_init();
+
+    kprintf("Quakz v0.0.1\n");
 
     while (1) {
         __asm__ volatile ("hlt");

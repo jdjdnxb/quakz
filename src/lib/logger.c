@@ -1,12 +1,14 @@
 #include <terminal.h>
 #include <logger.h>
 #include <config.h>
+#include <stdarg.h>
+#include <kprintf.h>
 
 extern terminal_t kernel_terminal;
 
 #ifdef LOGGER_ENABLED
 
-void log(log_type_t type, const char *message) {
+void log(log_type_t type, const char *fmt, ...) {
     uint32_t log_color;
     const char *status;
 
@@ -33,7 +35,12 @@ void log(log_type_t type, const char *message) {
     terminal_write_colored(&kernel_terminal, status, log_color);
     terminal_write_colored(&kernel_terminal, "] ", log_color);
 
-    terminal_write(&kernel_terminal, message);
+    va_list args;
+    va_start(args, fmt);
+
+    kvprintf(fmt, args);
+
+    va_end(args);
 }
 
 #else

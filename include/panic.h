@@ -10,6 +10,8 @@ typedef enum {
 } panic_type_t;
 
 void panic_begin(panic_type_t type, const char *reason, struct interrupt_frame *frame, uint64_t error_code);
+
+__attribute__((noreturn))
 void panic_end(void);
 
 void assert_failed(const char *expression, const char *file, uint32_t line);

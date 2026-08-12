@@ -15,7 +15,7 @@ void panic_begin(panic_type_t type, const char *reason, struct interrupt_frame *
     kprintf("               Kernel Panic!\n");
     kprintf("==============================================\n");
 
-    kprintf("Whoops! Quakz has crashed. Good luck!\n\n");
+    kprintf("Whoops! Quakz has crashed. Good luck!\n");
 
     switch (type) {
         case PANIC_FATAL:
@@ -40,6 +40,7 @@ void panic_begin(panic_type_t type, const char *reason, struct interrupt_frame *
     }
 }
 
+__attribute__((noreturn))
 void panic_end(void) {
     __asm__ volatile("cli");
     while (1) {
