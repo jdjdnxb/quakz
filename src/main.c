@@ -9,6 +9,8 @@
 #include <pmm.h>
 #include <requests.h>
 #include <arch/x86_64/cpu.h>
+#include <arch/x86_64/pic.h>
+#include <arch/x86_64/pit.h>
 
 terminal_t kernel_terminal;
 
@@ -20,9 +22,12 @@ uint64_t kernel_size;
 uint64_t kernel_phys_start;
 uint64_t kernel_phys_end;
 
+volatile uint64_t ticks = 0;
+
 void _start(void) {
     ASSERT(kernel_address_request.response != NULL);
     ASSERT(hhdm_request.response != NULL);
+    log(LOG_INFO, "HHDM offset: %x\n", hhdm_request.response->offset);
     ASSERT(memmap_request.response != NULL);
 
     kernel_size = (uint64_t)(_kernel_end - _kernel_start);
@@ -31,10 +36,14 @@ void _start(void) {
 
     framebuffer_init();
     terminal_init(&kernel_terminal);
+
     cpu_init();
     idt_init();
-    log(LOG_INFO, "HHDM offset: %x\n", hhdm_request.response->offset);
+    pic_remap();    
+    pit_init(100);
     pmm_init();
+
+    __asm__ volatile("sti");
 
     kprintf("Quakz v0.0.1\n");
 

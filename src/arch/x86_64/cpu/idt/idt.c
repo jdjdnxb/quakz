@@ -1,6 +1,7 @@
 #include <arch/x86_64/idt.h>
 #include <stdint.h>
 #include <arch/x86_64/handlers.h>
+#include <arch/x86_64/irq_handlers.h>
 #include <logger.h>
 
 static idtr_t idtr;
@@ -27,16 +28,17 @@ void idt_set_gate(uint8_t vector, void *handler) {
 }
 
 void idt_init(void) {
-    idt_set_gate(0, &exception_divide_error);
-    idt_set_gate(6, &exception_invalid_opcode);
-    idt_set_gate(8, &exception_double_fault);
-    idt_set_gate(14, &exception_page_fault);
+    idt_set_gate(0, exception_divide_error);
+    idt_set_gate(6, exception_invalid_opcode);
+    idt_set_gate(8, exception_double_fault);
+    idt_set_gate(14, exception_page_fault);
+
+    idt_set_gate(32, irq_timer);
 
     idtr.size = sizeof(idt) - 1;
     idtr.offset = (uint64_t)idt;    // address needs to be 64 bits wide
 
     lidt(&idtr);
-    // __asm__ volatile("sti");
 
     log(LOG_OK, "IDT enabled.\n");
 }

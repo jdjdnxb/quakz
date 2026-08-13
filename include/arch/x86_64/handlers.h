@@ -15,7 +15,6 @@ __attribute__((interrupt))
 void exception_divide_error(struct interrupt_frame *frame);
 
 // #OF 4
-
 __attribute__((interrupt))
 void exception_overflow(struct interrupt_frame *frame);
 
